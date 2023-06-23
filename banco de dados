@@ -1,0 +1,36 @@
+import connection
+import fastapi
+
+app = fastapi.FastAPI()
+
+@app.get('/usuario')
+def usuarios_lines():
+    usuarios_list = []
+    mycursor = connection.mydb.cursor(dictionary=True)
+    sql_get_all = "select * from usuarios"
+    mycursor.execute(sql_get_all)
+    for usuarioslines in mycursor:
+        usuarios_list.append(usuarioslines)
+    mycursor.close()
+    return {'usuarios': usuarios_list }
+
+@app.post('/usuario/{id}/{nome}/{email}/{Rua}/{recomendação}')
+def usuario_productline(usuario, id: int, nome: str, email: str, Rua: str, recomendação):
+    if len(usuario) <= 3:
+        return {'usuario name': '03 characteres or more'}
+    mycursor = connection.mydb.cursor(dictionary=True)
+    sql_get = "SELECT nome from servidor.usuarios where nome = '" + nome+ "'"
+    mycursor.execute(sql_get)
+    usuariolines_str = ''
+    for usuariolines_cursor in mycursor:
+        usuariolines_str = usuariolines_cursor['usuario']
+    mycursor.close()
+    usuariolines_str = str(usuariolines_str)
+
+    sql_insert = """ INSERT INTO servidor.usuario (id,nome,email,Rua,recomendação  VALUES   ('%s','%s','%s''%s','%s') ; """ % (id,nome,email,Rua,recomendação )
+    #print(sql_insert)
+    mycursor2 = connection.mydb.cursor()
+    mycursor2.execute(sql_insert)
+    mycursor2.execute("COMMIT;")
+    mycursor2.close()
+    return {'Productline': "Inserted - "+str(usuario) }
