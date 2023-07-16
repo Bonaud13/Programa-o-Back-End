@@ -1,2 +1,2 @@
-# Programa-o-Back-End
-curso de programação back end
+# criação de banco de dados #
+## integrado ao MYSQL & PYCHARM ##
