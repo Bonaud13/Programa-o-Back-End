@@ -1,2 +1,2 @@
-# criação de banco de dados #
-## integrado ao MYSQL & PYCHARM ##
+# CRIANDO BANCO DE DADOS #
+## integrado ao MYSQL & PYCHARM & FAST API ##
